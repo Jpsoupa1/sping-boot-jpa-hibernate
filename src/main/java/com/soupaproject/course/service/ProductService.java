@@ -1,0 +1,27 @@
+package com.soupaproject.course.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.soupaproject.course.entities.Product;
+import com.soupaproject.course.repository.ProductRepository;
+
+@Service
+public class ProductService {
+    @Autowired
+    private ProductRepository repo;
+
+    public List<Product> findAll() {
+        return repo.findAll();
+    }
+    
+//Conteiner object que pode ou nn conter um valor nulo (null)
+
+    public Optional<Product> findByID(Long id) {
+        return repo.findById(id);
+    }
+    
+}
