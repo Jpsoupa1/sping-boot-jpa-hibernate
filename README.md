@@ -59,5 +59,6 @@ cd nome-do-projeto
 
 # Executar a aplicação
 ./mvnw spring-boot:run
+```
 
-Curso (Nelia Alves)
+(Curso Nelio Alves)
