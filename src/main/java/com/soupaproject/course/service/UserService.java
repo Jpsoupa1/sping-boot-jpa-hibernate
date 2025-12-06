@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.soupaproject.course.entities.User;
 import com.soupaproject.course.repository.UserRepository;
 import com.soupaproject.course.service.exceptions.ControllerNotFoundException;
+import com.soupaproject.course.service.exceptions.DatabaseException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
@@ -31,13 +35,36 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        repo.deleteById(id);
+        if (!repo.existsById(id)) {
+            throw new ControllerNotFoundException(id);
+        }
+        
+        try {
+
+            repo.deleteById(id);    
+        
+        } catch (DataIntegrityViolationException e) {
+
+            throw new DatabaseException(e.getMessage());
+
+        }
+
     }
  
     public User update(Long id,User obj) {
-        User entity = repo.getReferenceById(id);
-        updateData(entity, obj);
-        return repo.save(entity);
+
+        try {
+
+            User entity = repo.getReferenceById(id);
+            updateData(entity, obj);            
+            return repo.save(entity);
+
+        } catch (EntityNotFoundException e) {
+
+            throw new ControllerNotFoundException(id); 
+
+        }
+
     }
 
     public void updateData(User entity,User user) {

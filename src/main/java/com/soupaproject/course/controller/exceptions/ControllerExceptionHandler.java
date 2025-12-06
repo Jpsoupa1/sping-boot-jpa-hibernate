@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.soupaproject.course.service.exceptions.ControllerNotFoundException;
+import com.soupaproject.course.service.exceptions.DatabaseException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -26,4 +27,14 @@ public class ControllerExceptionHandler implements Serializable{
 
     }
 
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+        
+        String error = "Database error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        
+        return ResponseEntity.status(status).body(err);
+
+    }
 }
