@@ -23,5 +23,9 @@ public class UserService {
     public Optional<User> findByID(Long id) {
         return repo.findById(id);
     }
+
+    public User insert(User obj) {
+        return repo.save(obj);
+    }
     
 }
