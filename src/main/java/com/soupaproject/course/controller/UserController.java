@@ -3,7 +3,6 @@ package com.soupaproject.course.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<Optional<User>> findById(@PathVariable Long id) {
-        Optional<User> user = userService.findByID(id);
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+        User user = userService.findByID(id);
         return ResponseEntity.ok().body(user);
     }
 

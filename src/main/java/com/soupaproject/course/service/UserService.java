@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.soupaproject.course.entities.User;
 import com.soupaproject.course.repository.UserRepository;
+import com.soupaproject.course.service.exceptions.ControllerNotFoundException;
 
 @Service
 public class UserService {
@@ -20,8 +21,9 @@ public class UserService {
     
 //Conteiner object que pode ou nn conter um valor nulo (null)
 
-    public Optional<User> findByID(Long id) {
-        return repo.findById(id);
+    public User findByID(Long id) {
+        Optional<User> obj = repo.findById(id);
+        return obj.orElseThrow(() -> new ControllerNotFoundException(id));
     }
 
     public User insert(User obj) {
